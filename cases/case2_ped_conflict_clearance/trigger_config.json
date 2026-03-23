@@ -1,0 +1,17 @@
+{
+  "controller": "adaptive_shield",
+  "scenario": "intersection_ped_heavy",
+  "seed": 0,
+  "duration": 120,
+  "evidence_type": "ped_conflict_clearance",
+  "evidence_sequence": {
+    "t_ped_demand_during_vehicle": 28.0,
+    "t_ped_candidate_selected": 47.0,
+    "t_entered_clearance": 47.0,
+    "t_ped_service_started": 51.0
+  },
+  "window": [
+    25.0,
+    61.0
+  ]
+}

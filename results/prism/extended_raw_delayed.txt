@@ -1,0 +1,430 @@
+PRISM
+=====
+
+Version: 4.10
+Date: Mon Mar 23 01:11:01 EDT 2026
+Hostname: XUEYI_ZHANG
+Memory limits: cudd=1g, java(heap)=7.9g
+Command line: prism 'E:\cps-smart-intersection\prism\intersection_uncertain.pm' 'E:\cps-smart-intersection\prism\properties_extended.pctl' -const delay_mode=1
+
+Parsing PRISM model file "E:\cps-smart-intersection\prism\intersection_uncertain.pm"...
+
+Type:        DTMC
+Modules:     DemandVehNS DemandVehEW DemandPedEW DemandPedNS Controller WaitRiskVehNS WaitRiskPedEW
+Actions:     []
+Variables:   req_veh_ns req_veh_ew req_ped_ew req_ped_ns phase tip_bucket cl_count wr_veh_ns wr_ped_ew
+Labels:      "conflict" "veh_ns_green" "ped_ew_green" "serve_veh_ns" "serve_ped_ew" "extreme_wait_veh_ns" "extreme_wait_ped_ew" "any_extreme_wait"
+Rewards:     "wait_veh_ns" "wait_ped_ew"
+
+Parsing properties file "E:\cps-smart-intersection\prism\properties_extended.pctl"...
+
+14 properties:
+(1) P>=1 [ G !"conflict" ]
+(2) P=? [ F<=50 "veh_ns_green" ]
+(3) P=? [ F<=50 "ped_ew_green" ]
+(4) P=? [ F<=30 "veh_ns_green" ]
+(5) P=? [ F<=30 "ped_ew_green" ]
+(6) P>=1 [ F "veh_ns_green" ]
+(7) P>=1 [ F "ped_ew_green" ]
+(8) S=? [ "veh_ns_green" ]
+(9) S=? [ "ped_ew_green" ]
+(10) S=? [ "extreme_wait_veh_ns" ]
+(11) S=? [ "extreme_wait_ped_ew" ]
+(12) S=? [ "any_extreme_wait" ]
+(13) R{"wait_veh_ns"}=? [ C<=100 ]
+(14) R{"wait_ped_ew"}=? [ C<=100 ]
+
+---------------------------------------------------------------------
+
+Model checking: P>=1 [ G !"conflict" ]
+Model constants: delay_mode=1
+
+Building model (engine:symbolic)...
+Model constants: delay_mode=1
+
+Computing reachable states...
+
+Reachability (BFS): 37 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.013 seconds.
+
+Type:        DTMC
+States:      4032 (1 initial)
+Transitions: 29568
+
+Transition matrix: 2395 nodes (108 terminal), 29568 minterms, vars: 15r/15c
+
+Probability bound in formula is 0/1 so not computing exact probabilities...
+
+yes = 0, no = 4032, maybe = 0
+
+Property satisfied in 1 of 1 initial states.
+
+Time for model checking: 0.001 seconds.
+
+Result: true
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F<=50 "veh_ns_green" ]
+Model constants: delay_mode=1
+
+Prob0: 24 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 432, no = 0, maybe = 3600
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=2359] [110.6 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [107.9 KB]
+Creating vector for yes... [dist=2, compact] [7.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [289.4 KB]
+
+Starting iterations...
+
+Iterative method: 50 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 1.0
+
+Time for model checking: 0.005 seconds.
+
+Result: 1.0 (exact floating point)
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F<=50 "ped_ew_green" ]
+Model constants: delay_mode=1
+
+Prob0: 24 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 432, no = 0, maybe = 3600
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=2360] [110.6 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [107.9 KB]
+Creating vector for yes... [dist=2, compact] [7.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [289.4 KB]
+
+Starting iterations...
+
+Iterative method: 50 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 9.873121377411442E-4
+
+Time for model checking: 0.004 seconds.
+
+Result: 9.873121377411442E-4 (exact floating point)
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F<=30 "veh_ns_green" ]
+Model constants: delay_mode=1
+
+Prob0: 24 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 432, no = 0, maybe = 3600
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=2359] [110.6 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [107.9 KB]
+Creating vector for yes... [dist=2, compact] [7.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [289.4 KB]
+
+Starting iterations...
+
+Iterative method: 30 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 1.0
+
+Time for model checking: 0.002 seconds.
+
+Result: 1.0 (exact floating point)
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F<=30 "ped_ew_green" ]
+Model constants: delay_mode=1
+
+Prob0: 24 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 432, no = 0, maybe = 3600
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=2360] [110.6 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [107.9 KB]
+Creating vector for yes... [dist=2, compact] [7.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [289.4 KB]
+
+Starting iterations...
+
+Iterative method: 30 iterations in 0.01 seconds (average 0.000000, setup 0.01)
+
+Value in the initial state: 2.5239340028087106E-6
+
+Time for model checking: 0.003 seconds.
+
+Result: 2.5239340028087106E-6 (exact floating point)
+
+---------------------------------------------------------------------
+
+Model checking: P>=1 [ F "veh_ns_green" ]
+Model constants: delay_mode=1
+
+Probability bound in formula is 0/1 so not computing exact probabilities...
+
+Prob0: 24 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 4032, no = 0, maybe = 0
+
+Property satisfied in 1 of 1 initial states.
+
+Time for model checking: 0.0 seconds.
+
+Result: true
+
+---------------------------------------------------------------------
+
+Model checking: P>=1 [ F "ped_ew_green" ]
+Model constants: delay_mode=1
+
+Probability bound in formula is 0/1 so not computing exact probabilities...
+
+Prob0: 24 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Prob1: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 4032, no = 0, maybe = 0
+
+Property satisfied in 1 of 1 initial states.
+
+Time for model checking: 0.0 seconds.
+
+Result: true
+
+---------------------------------------------------------------------
+
+Model checking: S=? [ "veh_ns_green" ]
+Model constants: delay_mode=1
+
+SCCs: 1, BSCCs: 1, non-BSCC states: 0
+BSCC sizes: 1:4032
+
+Computing steady state probabilities for BSCC 1
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=558] [26.2 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [103.8 KB]
+Creating vector for diagonals... [dist=130, compact] [8.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [201.8 KB]
+
+Starting iterations...
+
+Jacobi: 833 iterations in 0.02 seconds (average 0.000019, setup 0.00)
+
+BSCC 1 probability: 0.15959323563707387
+
+All states are in BSCCs (so no reachability probabilities computed)
+
+Value in the initial state: 0.15959323563707387
+
+Time for model checking: 0.026 seconds.
+
+Result: 0.15959323563707387
+
+---------------------------------------------------------------------
+
+Model checking: S=? [ "ped_ew_green" ]
+Model constants: delay_mode=1
+
+SCCs: 1, BSCCs: 1, non-BSCC states: 0
+BSCC sizes: 1:4032
+
+Computing steady state probabilities for BSCC 1
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=558] [26.2 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [103.8 KB]
+Creating vector for diagonals... [dist=130, compact] [8.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [201.8 KB]
+
+Starting iterations...
+
+Jacobi: 833 iterations in 0.02 seconds (average 0.000019, setup 0.00)
+
+BSCC 1 probability: 0.1379472244465445
+
+All states are in BSCCs (so no reachability probabilities computed)
+
+Value in the initial state: 0.1379472244465445
+
+Time for model checking: 0.017 seconds.
+
+Result: 0.1379472244465445
+
+---------------------------------------------------------------------
+
+Model checking: S=? [ "extreme_wait_veh_ns" ]
+Model constants: delay_mode=1
+
+SCCs: 1, BSCCs: 1, non-BSCC states: 0
+BSCC sizes: 1:4032
+
+Computing steady state probabilities for BSCC 1
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=558] [26.2 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [103.8 KB]
+Creating vector for diagonals... [dist=130, compact] [8.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [201.8 KB]
+
+Starting iterations...
+
+Jacobi: 833 iterations in 0.03 seconds (average 0.000019, setup 0.01)
+
+BSCC 1 probability: 0.11707373439079598
+
+All states are in BSCCs (so no reachability probabilities computed)
+
+Value in the initial state: 0.11707373439079598
+
+Time for model checking: 0.018 seconds.
+
+Result: 0.11707373439079598
+
+---------------------------------------------------------------------
+
+Model checking: S=? [ "extreme_wait_ped_ew" ]
+Model constants: delay_mode=1
+
+SCCs: 1, BSCCs: 1, non-BSCC states: 0
+BSCC sizes: 1:4032
+
+Computing steady state probabilities for BSCC 1
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=558] [26.2 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [103.8 KB]
+Creating vector for diagonals... [dist=130, compact] [8.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [201.8 KB]
+
+Starting iterations...
+
+Jacobi: 833 iterations in 0.01 seconds (average 0.000018, setup 0.00)
+
+BSCC 1 probability: 0.12761999724597972
+
+All states are in BSCCs (so no reachability probabilities computed)
+
+Value in the initial state: 0.12761999724597972
+
+Time for model checking: 0.017 seconds.
+
+Result: 0.12761999724597972
+
+---------------------------------------------------------------------
+
+Model checking: S=? [ "any_extreme_wait" ]
+Model constants: delay_mode=1
+
+SCCs: 1, BSCCs: 1, non-BSCC states: 0
+BSCC sizes: 1:4032
+
+Computing steady state probabilities for BSCC 1
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=558] [26.2 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [103.8 KB]
+Creating vector for diagonals... [dist=130, compact] [8.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [201.8 KB]
+
+Starting iterations...
+
+Jacobi: 833 iterations in 0.02 seconds (average 0.000019, setup 0.00)
+
+BSCC 1 probability: 0.23149440268402022
+
+All states are in BSCCs (so no reachability probabilities computed)
+
+Value in the initial state: 0.23149440268402022
+
+Time for model checking: 0.017 seconds.
+
+Result: 0.23149440268402022
+
+---------------------------------------------------------------------
+
+Model checking: R{"wait_veh_ns"}=? [ C<=100 ]
+Model constants: delay_mode=1
+
+Computing rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=2490] [116.7 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [120.3 KB]
+Creating vector for rewards... [dist=2, compact] [7.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [307.9 KB]
+
+Starting iterations...
+
+Iterative method: 100 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 35.35586532746312
+
+Time for model checking: 0.004 seconds.
+
+Result: 35.35586532746312 (exact floating point)
+
+---------------------------------------------------------------------
+
+Model checking: R{"wait_ped_ew"}=? [ C<=100 ]
+Model constants: delay_mode=1
+
+Computing rewards...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=15, nodes=2490] [116.7 KB]
+Adding explicit sparse matrices... [levels=15, num=1, compact] [120.3 KB]
+Creating vector for rewards... [dist=2, compact] [7.9 KB]
+Allocating iteration vectors... [2 x 31.5 KB]
+TOTAL: [307.9 KB]
+
+Starting iterations...
+
+Iterative method: 100 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 42.5617002284146
+
+Time for model checking: 0.004 seconds.
+
+Result: 42.5617002284146 (exact floating point)
+
+

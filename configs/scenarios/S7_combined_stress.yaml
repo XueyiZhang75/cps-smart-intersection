@@ -1,0 +1,58 @@
+scenario_id: S7
+scenario_name: combined_stress
+status: implemented  # directional surge base + delay + false_ped runtime injection
+
+base_sumocfg: sumo/cfg/intersection_combined_stress.sumocfg
+base_route: sumo/routes/combined_stress.rou.xml
+run_experiment_cfg: intersection_combined_stress
+
+description: >
+  Combined stress scenario layering multiple uncertainty sources on top
+  of a directional surge demand profile. Base traffic mirrors S2 (NS heavy,
+  EW low, balanced peds). Runtime injections add delay_detection (5s stale
+  observations) and false_ped_request (20% phantom rate on EW crossings).
+  This is the most demanding scenario, testing the safety shield under
+  simultaneous demand imbalance, sensing delay, and false input.
+
+semantic_target: >
+  S7 in proposal: combined stress test with multiple simultaneous
+  uncertainty sources. Verifies that the shield can maintain safety
+  properties when facing surge demand, sensor delay, and false inputs
+  at the same time.
+
+demand_profile:
+  vehicle_level: high_asymmetric  # NS surge (~75), EW low (~20)
+  pedestrian_level: medium        # ~26 peds (balanced)
+  directional_bias: NS_surge
+  burst_pattern: none
+
+uncertainty:
+  delay_detection:
+    enabled: true
+    mode: fixed_delay
+    params:
+      delay_seconds: 5
+      affected_lanes: all
+  false_ped_request:
+    enabled: true
+    mode: random_phantom
+    params:
+      false_rate: 0.2
+      affected_crossings: [":J0_w0", ":J0_w2"]
+  burst_request:
+    enabled: false
+    mode: null
+    params: {}
+  detector_failure:
+    enabled: false
+    mode: null
+    params: {}
+
+runtime_notes: >
+  Implemented. Run via:
+    python scripts/run_experiment.py --controller <name> --scenario_id S7_combined_stress --duration 300
+  Combines 3 pressure factors:
+    1. Directional surge (NS ~3.5x EW) via base route file
+    2. Delay detection (5s) via runtime uncertainty layer
+    3. False ped requests (20% phantom rate) via runtime uncertainty layer
+  All 3 factors are simultaneously active during the entire simulation.

@@ -1,0 +1,50 @@
+scenario_id: S2
+scenario_name: directional_surge
+status: implemented  # dedicated NS-surge route file created
+
+base_sumocfg: sumo/cfg/intersection_directional_surge.sumocfg
+base_route: sumo/routes/directional_surge.rou.xml
+run_experiment_cfg: intersection_directional_surge
+
+description: >
+  Directional surge scenario. The NS direction carries ~75 vehicles
+  (period 6s + 10s) while EW carries only ~20 (period 25s + 30s).
+  Pedestrian demand stays at balanced level (~26 peds). Tests whether
+  controllers can reallocate green time to the surge direction without
+  permanently starving EW vehicles or pedestrians.
+
+semantic_target: >
+  S2 in proposal: sudden directional vehicle surge on one approach,
+  testing whether adaptive controllers can reallocate green time
+  without starving other directions.
+
+demand_profile:
+  vehicle_level: high_asymmetric  # NS ~75, EW ~20
+  pedestrian_level: medium        # ~26 peds (same as balanced)
+  directional_bias: NS_surge      # NS period 6-10s, EW period 25-30s
+  burst_pattern: none
+
+uncertainty:
+  delay_detection:
+    enabled: false
+    mode: null
+    params: {}
+  false_ped_request:
+    enabled: false
+    mode: null
+    params: {}
+  burst_request:
+    enabled: false
+    mode: null
+    params: {}
+  detector_failure:
+    enabled: false
+    mode: null
+    params: {}
+
+runtime_notes: >
+  Implemented. Run via:
+    python scripts/run_experiment.py --controller <name> --scenario_id S2_directional_surge --duration 300
+  or directly:
+    python scripts/run_experiment.py --controller <name> --cfg intersection_directional_surge --duration 300
+  NS direction has ~3.5x more vehicles than EW, creating clear directional imbalance.

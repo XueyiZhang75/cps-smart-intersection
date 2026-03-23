@@ -1,0 +1,5 @@
+scenario_name,shield_hold_min_hold,shield_hold_small_gain,shield_override_starvation,shield_override_demand
+balanced,1,0,17,0
+ped_heavy,1,0,17,0
+vehicle_heavy,1,1,15,1
+bursty_ped,1,0,17,0

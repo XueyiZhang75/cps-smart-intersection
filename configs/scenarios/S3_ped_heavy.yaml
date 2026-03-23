@@ -1,0 +1,45 @@
+scenario_id: S3
+scenario_name: ped_heavy
+status: implemented  # fully implemented and validated with 20-seed experiments
+
+base_sumocfg: sumo/cfg/intersection_ped_heavy.sumocfg
+base_route: sumo/routes/ped_heavy.rou.xml
+run_experiment_cfg: intersection_ped_heavy
+
+description: >
+  High pedestrian demand scenario with ~2.5x balanced pedestrian load
+  while vehicle demand remains at balanced level. Tests controller
+  response to sustained pedestrian pressure across all crossings.
+
+semantic_target: >
+  S3 in proposal: heavy pedestrian demand, verifying that controllers
+  can serve pedestrian phases without excessive vehicle degradation.
+
+demand_profile:
+  vehicle_level: medium       # ~56 vehicles (same as balanced)
+  pedestrian_level: high      # ~65 pedestrians over 300s (~2.5x balanced)
+  directional_bias: none
+  burst_pattern: none         # continuous high-frequency arrivals
+
+uncertainty:
+  delay_detection:
+    enabled: false
+    mode: null
+    params: {}
+  false_ped_request:
+    enabled: false
+    mode: null
+    params: {}
+  burst_request:
+    enabled: false
+    mode: null
+    params: {}
+  detector_failure:
+    enabled: false
+    mode: null
+    params: {}
+
+runtime_notes: >
+  Fully implemented. Can be run directly via:
+    python scripts/run_experiment.py --controller <name> --cfg intersection_ped_heavy --duration 300
+  20-seed results available in results/formal_multiseed_summary.csv.

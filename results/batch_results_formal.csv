@@ -1,0 +1,17 @@
+scenario_name,controller_name,sim_duration,average_vehicle_queue_length,max_vehicle_queue_length,average_vehicle_waiting_time,max_vehicle_waiting_time,average_ped_waiting_time,max_ped_waiting_time,switch_count,shield_hold_min_hold,shield_hold_small_gain,shield_override_starvation,shield_override_demand
+intersection_balanced,fixed_time,300.0,4.647,13,8.3,68.0,6.1,79.0,11,0,0,0,0
+intersection_balanced,actuated,300.0,3.237,9,4.3,44.0,2.2,49.0,19,0,0,0,0
+intersection_balanced,adaptive_only,300.0,2.127,6,2.4,42.0,4.6,63.0,18,0,0,0,0
+intersection_balanced,adaptive_shield,300.0,2.48,7,3.0,40.0,4.3,58.0,17,1,0,17,0
+intersection_ped_heavy,fixed_time,300.0,4.353,12,7.8,68.0,5.7,86.0,11,0,0,0,0
+intersection_ped_heavy,actuated,300.0,3.103,8,4.1,42.0,2.7,50.0,19,0,0,0,0
+intersection_ped_heavy,adaptive_only,300.0,2.91,8,3.7,42.0,2.7,50.0,18,0,0,0,0
+intersection_ped_heavy,adaptive_shield,300.0,3.117,8,4.2,46.0,2.4,49.0,18,1,0,17,0
+intersection_vehicle_heavy,fixed_time,300.0,12.367,31,8.1,70.0,6.1,79.0,11,0,0,0,0
+intersection_vehicle_heavy,actuated,300.0,13.707,30,6.2,45.0,2.2,49.0,19,0,0,0,0
+intersection_vehicle_heavy,adaptive_only,300.0,4.767,13,1.8,31.0,10.0,100.0,18,0,0,0,0
+intersection_vehicle_heavy,adaptive_shield,300.0,4.627,13,1.8,29.0,7.9,98.0,17,1,1,15,1
+intersection_bursty_ped,fixed_time,300.0,4.417,12,7.8,69.0,3.2,83.0,11,0,0,0,0
+intersection_bursty_ped,actuated,300.0,3.07,8,4.1,42.0,2.9,51.0,19,0,0,0,0
+intersection_bursty_ped,adaptive_only,300.0,2.873,8,3.6,45.0,2.0,72.0,18,0,0,0,0
+intersection_bursty_ped,adaptive_shield,300.0,2.71,8,3.4,44.0,2.1,57.0,18,1,0,17,0

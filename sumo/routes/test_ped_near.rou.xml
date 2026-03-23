@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- Vehicle type -->
+    <vType id="car" length="5.0" maxSpeed="13.89" accel="2.6" decel="4.5"/>
+
+    <!-- Pedestrian type -->
+    <vType id="ped" vClass="pedestrian" maxSpeed="1.2"/>
+
+    <!-- Sorted by depart time -->
+
+    <!-- Vehicle 1: North -> South (depart=0) -->
+    <route id="r_N2S" edges="N2C C2S"/>
+    <vehicle id="veh0" type="car" route="r_N2S" depart="0.0"/>
+
+    <!-- Pedestrian 1: near J0 on north sidewalk, cross to south (depart=5) -->
+    <person id="ped0" type="ped" depart="5.0" departPos="180.0">
+        <walk from="N2C" to="C2S"/>
+    </person>
+
+    <!-- Pedestrian 2: near J0 on west sidewalk, cross to east (depart=10) -->
+    <person id="ped1" type="ped" depart="10.0" departPos="180.0">
+        <walk from="W2C" to="C2E"/>
+    </person>
+
+    <!-- Vehicle 2: West -> East (depart=35) -->
+    <route id="r_W2E" edges="W2C C2E"/>
+    <vehicle id="veh1" type="car" route="r_W2E" depart="35.0"/>
+
+</routes>

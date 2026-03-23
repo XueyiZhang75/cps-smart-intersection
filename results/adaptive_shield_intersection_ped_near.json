@@ -1,0 +1,14 @@
+{
+  "controller_name": "adaptive_shield",
+  "scenario_name": "intersection_ped_near",
+  "sim_duration": 200.0,
+  "average_vehicle_queue_length": 0.03,
+  "max_vehicle_queue_length": 1,
+  "max_vehicle_waiting_time": 4.0,
+  "max_ped_waiting_time": 15.0,
+  "switch_count": 10,
+  "shield_hold_min_hold": 3,
+  "shield_hold_small_gain": 0,
+  "shield_override_starvation": 7,
+  "shield_override_demand": 0
+}

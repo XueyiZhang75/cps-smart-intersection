@@ -1,0 +1,56 @@
+scenario_id: S5
+scenario_name: false_ped_and_burst
+status: implemented  # burst via route + false ped injection via core/uncertainty.py
+
+base_sumocfg: sumo/cfg/intersection_bursty_ped.sumocfg
+base_route: sumo/routes/bursty_ped.rou.xml
+run_experiment_cfg: intersection_bursty_ped
+
+description: >
+  Combined false pedestrian requests and burst pedestrian arrivals.
+  Uses bursty_ped as the base, which provides the burst arrival pattern
+  via route file. False pedestrian requests (phantom button presses with
+  no real pedestrian) are injected at runtime via FalsePedInjector in
+  core/uncertainty.py. Both components are active simultaneously.
+
+semantic_target: >
+  S5 in proposal: abnormal pedestrian requests including (a) false/phantom
+  pedestrian calls that trigger ped phases unnecessarily, and (b) burst
+  arrivals that create sudden demand spikes. Tests whether the safety
+  shield can avoid wasting green time on false requests while still
+  serving genuine burst demand.
+
+demand_profile:
+  vehicle_level: medium       # ~56 vehicles (same as balanced)
+  pedestrian_level: medium_bursty  # ~52 peds in 3 burst windows
+  directional_bias: none
+  burst_pattern: "3 bursts at t=20-60, 120-160, 220-260; sparse between"
+
+uncertainty:
+  delay_detection:
+    enabled: false
+    mode: null
+    params: {}
+  false_ped_request:
+    enabled: true  # IMPLEMENTED: phantom ped injection in core/uncertainty.py
+    mode: random_phantom  # Bernoulli per-step trigger with persistence
+    params:
+      false_rate: 0.2  # planned: 20% of ped phase triggers are false
+      affected_crossings: [":J0_w0", ":J0_w2"]  # planned: EW crossings
+  burst_request:
+    enabled: true  # PARTIALLY IMPLEMENTED via bursty_ped route file
+    mode: route_based  # burst pattern baked into route file
+    params:
+      burst_windows: [[20, 60], [120, 160], [220, 260]]
+      burst_period: 8  # seconds between ped arrivals during burst
+  detector_failure:
+    enabled: false
+    mode: null
+    params: {}
+
+runtime_notes: >
+  Implemented. Run via:
+    python scripts/run_experiment.py --controller <name> --scenario_id S5_false_ped_and_burst --duration 300
+  Burst arrivals come from the bursty_ped route file. False ped requests
+  are injected at runtime via FalsePedInjector (Bernoulli per-step trigger,
+  phantom persists for 5 steps). Both components are active simultaneously.

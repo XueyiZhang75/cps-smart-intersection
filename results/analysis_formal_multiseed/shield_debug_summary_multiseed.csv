@@ -1,0 +1,5 @@
+scenario_name,shield_hold_min_hold_mean,shield_hold_min_hold_std,shield_hold_small_gain_mean,shield_hold_small_gain_std,shield_override_starvation_mean,shield_override_starvation_std,shield_override_demand_mean,shield_override_demand_std
+balanced,1.15,0.366,0.1,0.308,17.0,0.0,0.0,0.0
+ped_heavy,1.1,0.308,0.2,0.41,17.0,0.0,0.0,0.0
+vehicle_heavy,1.0,0.0,1.0,0.0,13.65,0.671,2.35,0.671
+bursty_ped,1.1,0.447,0.0,0.0,16.9,0.308,0.1,0.308

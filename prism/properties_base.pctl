@@ -1,0 +1,27 @@
+// ================================================================
+// PRISM Properties: Base Safety Verification
+// ================================================================
+// These properties verify the most fundamental safety invariants
+// of the intersection signal controller.
+// ================================================================
+
+// Property 1: No conflict state is ever reachable.
+// A conflict state means a service phase is active with residual
+// clearance counter > 0, indicating clearance was not properly
+// completed before entering the service phase.
+// Expected result: true (probability 1.0 that conflict never occurs)
+P>=1 [ G !"conflict" ]
+
+// Property 2: When a pedestrian phase is green, no vehicle phase
+// is simultaneously active.
+// Since we use a single phase variable, this is structurally guaranteed,
+// but we formally verify it to demonstrate the model's safety envelope.
+// Expected result: true (probability 1.0)
+P>=1 [ G !"veh_conflict_during_ped" ]
+
+// Property 3 (supplementary): Every service phase is always followed
+// by a clearance phase before the next service phase.
+// Expressed as: if we are in clearance, the clearance counter will
+// eventually reach CLEARANCE_DUR (clearance completes).
+// Expected result: probability 1.0
+P>=1 [ "clearance" => (F cl_count=3) ]

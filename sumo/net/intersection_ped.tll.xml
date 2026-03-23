@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tlLogics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tllogic_file.xsd">
+
+    <!--
+        8-phase signal skeleton for J0
+        State string: 20 chars
+          [0-3]   N2C vehicle movements (right/straight/left/u-turn)
+          [4-7]   E2C vehicle movements
+          [8-11]  S2C vehicle movements
+          [12-15] W2C vehicle movements
+          [16]    North arm crossing (peds cross N2C/C2N)
+          [17]    East arm crossing  (peds cross E2C/C2E)
+          [18]    South arm crossing (peds cross S2C/C2S)
+          [19]    West arm crossing  (peds cross W2C/C2W)
+    -->
+    <tlLogic id="J0" type="static" programID="0" offset="0">
+        <!-- Phase 1: Vehicle_NS         — NS vehicles green, all crossings red -->
+        <phase duration="30" state="GGggrrrrGGggrrrrrrrr" name="Vehicle_NS"/>
+
+        <!-- Phase 2: Clearance_after_NS — NS yellow -->
+        <phase duration="3"  state="yyyyrrrryyyyrrrrrrrr" name="Clearance_after_NS"/>
+
+        <!-- Phase 3: Vehicle_EW         — EW vehicles green, all crossings red -->
+        <phase duration="30" state="rrrrGGggrrrrGGggrrrr" name="Vehicle_EW"/>
+
+        <!-- Phase 4: Clearance_after_EW — EW yellow -->
+        <phase duration="3"  state="rrrryyyyrrrryyyyrrrr" name="Clearance_after_EW"/>
+
+        <!-- Phase 5: Ped_EW             — peds cross East+West arms (indices 17,19) -->
+        <phase duration="15" state="rrrrrrrrrrrrrrrrrGrG" name="Ped_EW"/>
+
+        <!-- Phase 6: Clearance_after_Ped_EW — all red -->
+        <phase duration="3"  state="rrrrrrrrrrrrrrrrrrrr" name="Clearance_after_Ped_EW"/>
+
+        <!-- Phase 7: Ped_NS             — peds cross North+South arms (indices 16,18) -->
+        <phase duration="15" state="rrrrrrrrrrrrrrrrGrGr" name="Ped_NS"/>
+
+        <!-- Phase 8: Clearance_after_Ped_NS — all red -->
+        <phase duration="3"  state="rrrrrrrrrrrrrrrrrrrr" name="Clearance_after_Ped_NS"/>
+    </tlLogic>
+    <!-- Total cycle: 30+3+30+3+15+3+15+3 = 102s -->
+
+</tlLogics>

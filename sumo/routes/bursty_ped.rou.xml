@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!--
+        Bursty-ped scenario: medium vehicle demand + burst pedestrian demand.
+        Vehicles: same as balanced (~56 vehicles over 300s).
+        Pedestrians: ~52 peds in 3 burst windows + sparse trickle between.
+          Burst 1: t=20-60   (4 directions, primary period=8s, secondary period=12s)
+          Burst 2: t=120-160
+          Burst 3: t=220-260
+          Trickle between bursts: period=60s, 2 directions only
+        Key difference from ped_heavy: peds arrive in sharp concentrated batches,
+        not spread uniformly. Tests controller response to sudden demand spikes.
+    -->
+
+    <!-- Types -->
+    <vType id="car" length="5.0" maxSpeed="13.89" accel="2.6" decel="4.5"/>
+    <vType id="ped" vClass="pedestrian" maxSpeed="1.2"/>
+
+    <!-- Vehicle routes -->
+    <route id="r_N2S" edges="N2C C2S"/>
+    <route id="r_S2N" edges="S2C C2N"/>
+    <route id="r_E2W" edges="E2C C2W"/>
+    <route id="r_W2E" edges="W2C C2E"/>
+
+    <!-- All flows sorted strictly by begin time -->
+
+    <!-- === Vehicle flows: same as balanced === -->
+
+    <!-- begin=0: N->S vehicles, period 18s -->
+    <flow id="f_N2S" type="car" route="r_N2S" begin="0" end="280" period="18"/>
+
+    <!-- begin=5: S->N vehicles, period 22s -->
+    <flow id="f_S2N" type="car" route="r_S2N" begin="5" end="280" period="22"/>
+
+    <!-- begin=10: E->W vehicles, period 18s -->
+    <flow id="f_E2W" type="car" route="r_E2W" begin="10" end="280" period="18"/>
+
+    <!-- begin=15: W->E vehicles, period 22s -->
+    <flow id="f_W2E" type="car" route="r_W2E" begin="15" end="280" period="22"/>
+
+    <!-- === Burst 1: t=20-60, ~16 peds === -->
+
+    <!-- begin=20: burst1 primary N->S, period 8s (~5 peds) -->
+    <personFlow id="pf_N2S_b1" type="ped" begin="20" end="60" period="8" departPos="180.0">
+        <walk from="N2C" to="C2S"/>
+    </personFlow>
+
+    <!-- begin=20: burst1 primary W->E, period 8s (~5 peds) -->
+    <personFlow id="pf_W2E_b1" type="ped" begin="20" end="60" period="8" departPos="180.0">
+        <walk from="W2C" to="C2E"/>
+    </personFlow>
+
+    <!-- begin=25: burst1 secondary S->N, period 12s (~3 peds) -->
+    <personFlow id="pf_S2N_b1" type="ped" begin="25" end="60" period="12" departPos="180.0">
+        <walk from="S2C" to="C2N"/>
+    </personFlow>
+
+    <!-- begin=25: burst1 secondary E->W, period 12s (~3 peds) -->
+    <personFlow id="pf_E2W_b1" type="ped" begin="25" end="60" period="12" departPos="180.0">
+        <walk from="E2C" to="C2W"/>
+    </personFlow>
+
+    <!-- === Trickle between burst 1 and 2: t=70-110, ~2 peds === -->
+
+    <!-- begin=70: trickle N->S, period 60s (~1 ped) -->
+    <personFlow id="pf_N2S_t1" type="ped" begin="70" end="110" period="60" departPos="180.0">
+        <walk from="N2C" to="C2S"/>
+    </personFlow>
+
+    <!-- begin=80: trickle W->E, period 60s (~1 ped) -->
+    <personFlow id="pf_W2E_t1" type="ped" begin="80" end="110" period="60" departPos="180.0">
+        <walk from="W2C" to="C2E"/>
+    </personFlow>
+
+    <!-- === Burst 2: t=120-160, ~16 peds === -->
+
+    <!-- begin=120: burst2 primary N->S, period 8s (~5 peds) -->
+    <personFlow id="pf_N2S_b2" type="ped" begin="120" end="160" period="8" departPos="180.0">
+        <walk from="N2C" to="C2S"/>
+    </personFlow>
+
+    <!-- begin=120: burst2 primary W->E, period 8s (~5 peds) -->
+    <personFlow id="pf_W2E_b2" type="ped" begin="120" end="160" period="8" departPos="180.0">
+        <walk from="W2C" to="C2E"/>
+    </personFlow>
+
+    <!-- begin=125: burst2 secondary S->N, period 12s (~3 peds) -->
+    <personFlow id="pf_S2N_b2" type="ped" begin="125" end="160" period="12" departPos="180.0">
+        <walk from="S2C" to="C2N"/>
+    </personFlow>
+
+    <!-- begin=125: burst2 secondary E->W, period 12s (~3 peds) -->
+    <personFlow id="pf_E2W_b2" type="ped" begin="125" end="160" period="12" departPos="180.0">
+        <walk from="E2C" to="C2W"/>
+    </personFlow>
+
+    <!-- === Trickle between burst 2 and 3: t=170-210, ~2 peds === -->
+
+    <!-- begin=170: trickle N->S, period 60s (~1 ped) -->
+    <personFlow id="pf_N2S_t2" type="ped" begin="170" end="210" period="60" departPos="180.0">
+        <walk from="N2C" to="C2S"/>
+    </personFlow>
+
+    <!-- begin=180: trickle W->E, period 60s (~1 ped) -->
+    <personFlow id="pf_W2E_t2" type="ped" begin="180" end="210" period="60" departPos="180.0">
+        <walk from="W2C" to="C2E"/>
+    </personFlow>
+
+    <!-- === Burst 3: t=220-260, ~16 peds === -->
+
+    <!-- begin=220: burst3 primary N->S, period 8s (~5 peds) -->
+    <personFlow id="pf_N2S_b3" type="ped" begin="220" end="260" period="8" departPos="180.0">
+        <walk from="N2C" to="C2S"/>
+    </personFlow>
+
+    <!-- begin=220: burst3 primary W->E, period 8s (~5 peds) -->
+    <personFlow id="pf_W2E_b3" type="ped" begin="220" end="260" period="8" departPos="180.0">
+        <walk from="W2C" to="C2E"/>
+    </personFlow>
+
+    <!-- begin=225: burst3 secondary S->N, period 12s (~3 peds) -->
+    <personFlow id="pf_S2N_b3" type="ped" begin="225" end="260" period="12" departPos="180.0">
+        <walk from="S2C" to="C2N"/>
+    </personFlow>
+
+    <!-- begin=225: burst3 secondary E->W, period 12s (~3 peds) -->
+    <personFlow id="pf_E2W_b3" type="ped" begin="225" end="260" period="12" departPos="180.0">
+        <walk from="E2C" to="C2W"/>
+    </personFlow>
+
+</routes>

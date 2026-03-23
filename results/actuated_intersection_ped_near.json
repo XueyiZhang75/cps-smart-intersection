@@ -1,0 +1,10 @@
+{
+  "controller_name": "actuated",
+  "scenario_name": "intersection_ped_near",
+  "sim_duration": 200.0,
+  "average_vehicle_queue_length": 0.18,
+  "max_vehicle_queue_length": 1,
+  "max_vehicle_waiting_time": 34.0,
+  "max_ped_waiting_time": 30.0,
+  "switch_count": 9
+}

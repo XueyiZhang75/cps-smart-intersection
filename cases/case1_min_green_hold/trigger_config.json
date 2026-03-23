@@ -1,0 +1,12 @@
+{
+  "controller": "adaptive_shield",
+  "scenario": "intersection_balanced",
+  "seed": 0,
+  "duration": 120,
+  "evidence_type": "min_green_hold",
+  "override_time": 16.0,
+  "window": [
+    6.0,
+    31.0
+  ]
+}

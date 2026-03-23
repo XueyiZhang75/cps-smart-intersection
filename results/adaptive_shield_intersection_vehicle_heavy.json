@@ -1,0 +1,14 @@
+{
+  "controller_name": "adaptive_shield",
+  "scenario_name": "intersection_vehicle_heavy",
+  "sim_duration": 300.0,
+  "average_vehicle_queue_length": 4.627,
+  "max_vehicle_queue_length": 13,
+  "max_vehicle_waiting_time": 29.0,
+  "max_ped_waiting_time": 98.0,
+  "switch_count": 17,
+  "shield_hold_min_hold": 1,
+  "shield_hold_small_gain": 1,
+  "shield_override_starvation": 15,
+  "shield_override_demand": 1
+}

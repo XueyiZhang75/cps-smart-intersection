@@ -1,0 +1,50 @@
+scenario_id: S6
+scenario_name: detector_failure
+status: implemented  # detector failure injection implemented in core/uncertainty.py
+
+base_sumocfg: sumo/cfg/intersection_balanced.sumocfg
+base_route: sumo/routes/balanced.rou.xml
+run_experiment_cfg: intersection_balanced
+
+description: >
+  Detector failure scenario. Base traffic is balanced, but one or more
+  vehicle/pedestrian detectors fail during the simulation, causing the
+  controller to lose demand information for affected approaches.
+
+semantic_target: >
+  S6 in proposal: detector/sensor failure. Tests whether the safety
+  shield can maintain safe operation when demand detection returns
+  zero (stuck-off) or maximum (stuck-on) for failed sensors.
+
+demand_profile:
+  vehicle_level: medium
+  pedestrian_level: medium
+  directional_bias: none
+  burst_pattern: none
+
+uncertainty:
+  delay_detection:
+    enabled: false
+    mode: null
+    params: {}
+  false_ped_request:
+    enabled: false
+    mode: null
+    params: {}
+  burst_request:
+    enabled: false
+    mode: null
+    params: {}
+  detector_failure:
+    enabled: true  # IMPLEMENTED: stuck_off/stuck_on/intermittent in core/uncertainty.py
+    mode: stuck_off  # planned: affected detectors report 0 demand
+    params:
+      failure_start: 60  # planned: failure begins at t=60s
+      failure_end: 180    # planned: failure ends at t=180s
+      affected_lanes: ["N2C_1", "S2C_1"]  # planned: NS vehicle detection fails
+
+runtime_notes: >
+  Implemented. Run via:
+    python scripts/run_experiment.py --controller <name> --scenario_id S6_detector_failure --duration 300
+  During [failure_start, failure_end], affected lanes return spoofed demand
+  values (stuck_off=0, stuck_on=3, intermittent=random). Supports all 3 modes.

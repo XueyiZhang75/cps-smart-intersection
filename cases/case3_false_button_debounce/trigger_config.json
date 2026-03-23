@@ -1,0 +1,11 @@
+{
+  "controller": "adaptive_shield",
+  "scenario": "S5_false_ped_and_burst",
+  "seed": 0,
+  "duration": 120,
+  "evidence_type": "false_button_debounce",
+  "window": [
+    1,
+    42.0
+  ]
+}

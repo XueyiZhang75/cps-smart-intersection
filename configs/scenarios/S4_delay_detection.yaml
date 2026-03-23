@@ -1,0 +1,49 @@
+scenario_id: S4
+scenario_name: delay_detection
+status: implemented  # delay injection implemented in core/uncertainty.py
+
+base_sumocfg: sumo/cfg/intersection_balanced.sumocfg
+base_route: sumo/routes/balanced.rou.xml
+run_experiment_cfg: intersection_balanced  # will use balanced as base traffic
+
+description: >
+  Delayed detection scenario. Base traffic is balanced, but the controller
+  receives vehicle/pedestrian presence information with a configurable
+  time delay, simulating sensor latency or communication lag.
+
+semantic_target: >
+  S4 in proposal: sensing uncertainty via delayed detection. Tests whether
+  the safety shield can maintain acceptable performance when demand
+  information arrives late, potentially causing stale scheduling decisions.
+
+demand_profile:
+  vehicle_level: medium
+  pedestrian_level: medium
+  directional_bias: none
+  burst_pattern: none
+
+uncertainty:
+  delay_detection:
+    enabled: true  # IMPLEMENTED: delay buffer in core/uncertainty.py
+    mode: fixed_delay  # planned: constant delay on all detection queries
+    params:
+      delay_seconds: 5  # planned: 5-second sensing lag
+      affected_lanes: all  # planned: applies to all vehicle/ped detection
+  false_ped_request:
+    enabled: false
+    mode: null
+    params: {}
+  burst_request:
+    enabled: false
+    mode: null
+    params: {}
+  detector_failure:
+    enabled: false
+    mode: null
+    params: {}
+
+runtime_notes: >
+  Implemented. Run via:
+    python scripts/run_experiment.py --controller <name> --scenario_id S4_delay_detection --duration 300
+  The delay buffer wraps all TraCI demand queries, returning observations
+  from delay_seconds steps in the past.

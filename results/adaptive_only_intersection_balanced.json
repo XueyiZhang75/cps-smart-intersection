@@ -1,0 +1,12 @@
+{
+  "controller_name": "adaptive_only",
+  "scenario_name": "intersection_balanced",
+  "sim_duration": 300.0,
+  "average_vehicle_queue_length": 2.127,
+  "max_vehicle_queue_length": 6,
+  "average_vehicle_waiting_time": 2.4,
+  "max_vehicle_waiting_time": 42.0,
+  "average_ped_waiting_time": 4.6,
+  "max_ped_waiting_time": 63.0,
+  "switch_count": 18
+}

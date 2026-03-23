@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/connections_file.xsd">
+
+    <!-- Pedestrian crossings at J0: one per arm -->
+    <!-- North arm: peds cross N2C + C2N (walking east-west across the north approach) -->
+    <crossing node="J0" edges="N2C C2N" priority="1" width="4.0"/>
+
+    <!-- South arm: peds cross S2C + C2S -->
+    <crossing node="J0" edges="S2C C2S" priority="1" width="4.0"/>
+
+    <!-- East arm: peds cross E2C + C2E (walking north-south across the east approach) -->
+    <crossing node="J0" edges="E2C C2E" priority="1" width="4.0"/>
+
+    <!-- West arm: peds cross W2C + C2W -->
+    <crossing node="J0" edges="W2C C2W" priority="1" width="4.0"/>
+
+</connections>

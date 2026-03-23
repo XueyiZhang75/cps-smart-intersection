@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- Minimal smoke test: 2 vehicles to verify network connectivity -->
+    <vType id="car" length="5.0" maxSpeed="13.89" accel="2.6" decel="4.5"/>
+
+    <!-- Vehicle 1: North -> South (straight through) -->
+    <route id="r_N2S" edges="N2C C2S"/>
+    <vehicle id="veh0" type="car" route="r_N2S" depart="0.0"/>
+
+    <!-- Vehicle 2: West -> East (straight through) -->
+    <route id="r_W2E" edges="W2C C2E"/>
+    <vehicle id="veh1" type="car" route="r_W2E" depart="5.0"/>
+
+</routes>

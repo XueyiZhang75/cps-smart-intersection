@@ -1,0 +1,21 @@
+{
+  "controller_name": "fixed_time",
+  "scenario_name": "intersection_balanced",
+  "sim_duration": 120.0,
+  "average_vehicle_queue_length": 3.75,
+  "max_vehicle_queue_length": 11,
+  "average_vehicle_waiting_time": 6.1,
+  "max_vehicle_waiting_time": 64.0,
+  "average_ped_waiting_time": 4.9,
+  "max_ped_waiting_time": 51.0,
+  "switch_count": 4,
+  "conflict_release_count": 0,
+  "dangerous_switch_attempt_count": 0,
+  "vehicle_wait_p95": 42.0,
+  "ped_wait_p95": 31.0,
+  "vehicle_starvation_count": 0,
+  "ped_starvation_count": 0,
+  "switch_rate_per_300s": 10.0,
+  "unnecessary_switch_count": 1,
+  "unnecessary_switch_rate": 0.25
+}

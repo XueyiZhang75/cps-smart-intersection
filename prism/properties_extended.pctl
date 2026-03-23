@@ -1,0 +1,55 @@
+// ================================================================
+// PRISM Properties: Extended (Service + Risk + Delay)
+// ================================================================
+
+// ── Safety (preserved from base) ─────────────────────────────
+// P1: No conflict state ever reachable.
+P>=1 [ G !"conflict" ]
+
+// ── Service guarantee ────────────────────────────────────────
+// These ask: "From the initial state, what is the probability that
+// the Vehicle_NS (or Ped_EW) green phase is reached within T steps?"
+// This measures how quickly the cycle progresses to serve each direction.
+
+// P2: Probability of reaching Vehicle_NS green within 50 steps (from init).
+//     50 steps ≈ half a 102s cycle; should be high if cycle progresses normally.
+P=? [ F<=50 "veh_ns_green" ]
+
+// P3: Probability of reaching Ped_EW green within 50 steps (from init).
+P=? [ F<=50 "ped_ew_green" ]
+
+// P4: Tighter window: Vehicle_NS green within 30 steps.
+P=? [ F<=30 "veh_ns_green" ]
+
+// P5: Tighter window: Ped_EW green within 30 steps.
+P=? [ F<=30 "ped_ew_green" ]
+
+// P6: Eventual service is guaranteed (unbounded reachability = 1.0).
+P>=1 [ F "veh_ns_green" ]
+
+// P7: Same for Ped_EW.
+P>=1 [ F "ped_ew_green" ]
+
+// ── Steady-state service fraction ────────────────────────────
+// P8: Long-run fraction of time in Vehicle_NS service phase.
+S=? [ "veh_ns_green" ]
+
+// P9: Long-run fraction of time in Ped_EW service phase.
+S=? [ "ped_ew_green" ]
+
+// ── Extreme wait risk ────────────────────────────────────────
+// P10: Steady-state probability of extreme wait for Vehicle NS.
+S=? [ "extreme_wait_veh_ns" ]
+
+// P11: Steady-state probability of extreme wait for Ped EW.
+S=? [ "extreme_wait_ped_ew" ]
+
+// P12: Any direction in extreme wait.
+S=? [ "any_extreme_wait" ]
+
+// ── Cumulative waiting ───────────────────────────────────────
+// P13: Expected cumulative unserved-demand steps for veh NS over 100 steps.
+R{"wait_veh_ns"}=? [ C<=100 ]
+
+// P14: Expected cumulative unserved-demand steps for ped EW over 100 steps.
+R{"wait_ped_ew"}=? [ C<=100 ]

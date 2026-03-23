@@ -1,0 +1,45 @@
+scenario_id: S1
+scenario_name: balanced
+status: implemented  # fully implemented and validated with 20-seed experiments
+
+base_sumocfg: sumo/cfg/intersection_balanced.sumocfg
+base_route: sumo/routes/balanced.rou.xml
+run_experiment_cfg: intersection_balanced  # key used with --cfg in run_experiment.py
+
+description: >
+  Standard balanced scenario with medium vehicle and pedestrian demand
+  across all four directions. Serves as the primary baseline for
+  comparing controller performance under normal operating conditions.
+
+semantic_target: >
+  S1 in proposal: normal traffic with balanced vehicle/pedestrian load,
+  no uncertainty or abnormal inputs.
+
+demand_profile:
+  vehicle_level: medium       # ~56 vehicles over 300s
+  pedestrian_level: medium    # ~26 pedestrians over 300s
+  directional_bias: none      # all 4 directions roughly equal
+  burst_pattern: none         # continuous uniform arrivals
+
+uncertainty:
+  delay_detection:
+    enabled: false
+    mode: null
+    params: {}
+  false_ped_request:
+    enabled: false
+    mode: null
+    params: {}
+  burst_request:
+    enabled: false
+    mode: null
+    params: {}
+  detector_failure:
+    enabled: false
+    mode: null
+    params: {}
+
+runtime_notes: >
+  Fully implemented. Can be run directly via:
+    python scripts/run_experiment.py --controller <name> --cfg intersection_balanced --duration 300
+  20-seed results available in results/formal_multiseed_summary.csv.

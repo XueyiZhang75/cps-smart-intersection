@@ -1,0 +1,17 @@
+scenario_name,controller_name,n_runs,average_vehicle_queue_length_mean,average_vehicle_queue_length_std,max_vehicle_queue_length_mean,max_vehicle_queue_length_std,average_vehicle_waiting_time_mean,average_vehicle_waiting_time_std,max_vehicle_waiting_time_mean,max_vehicle_waiting_time_std,average_ped_waiting_time_mean,average_ped_waiting_time_std,max_ped_waiting_time_mean,max_ped_waiting_time_std,switch_count_mean,switch_count_std,shield_hold_min_hold_mean,shield_hold_min_hold_std,shield_hold_small_gain_mean,shield_hold_small_gain_std,shield_override_starvation_mean,shield_override_starvation_std,shield_override_demand_mean,shield_override_demand_std
+intersection_balanced,fixed_time,20.0,4.301,0.204,11.95,0.51,7.535,0.399,67.55,2.395,6.3,0.186,82.7,1.75,11.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_balanced,actuated,20.0,3.104,0.106,8.35,0.489,4.09,0.168,42.1,1.334,2.165,0.15,46.6,2.963,19.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_balanced,adaptive_only,20.0,2.205,0.1,6.35,0.813,2.505,0.182,42.35,1.348,4.46,0.223,61.6,4.535,18.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_balanced,adaptive_shield,20.0,2.58,0.139,7.7,0.571,3.12,0.242,41.75,2.197,4.38,0.496,62.7,5.391,17.55,0.51,1.15,0.366,0.1,0.308,17.0,0.0,0.0,0.0
+intersection_ped_heavy,fixed_time,20.0,4.39,0.247,11.9,0.718,7.71,0.505,68.05,2.328,5.635,0.139,83.75,1.446,11.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_ped_heavy,actuated,20.0,3.105,0.089,8.3,0.47,4.09,0.133,41.95,1.317,2.755,0.123,51.0,0.649,19.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_ped_heavy,adaptive_only,20.0,3.113,0.147,8.05,0.605,4.115,0.341,45.35,3.829,2.605,0.143,50.05,1.05,18.45,0.51,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_ped_heavy,adaptive_shield,20.0,2.969,0.174,7.95,0.759,3.935,0.356,45.9,1.997,2.52,0.161,50.05,1.234,18.0,0.0,1.1,0.308,0.2,0.41,17.0,0.0,0.0,0.0
+intersection_vehicle_heavy,fixed_time,20.0,12.25,0.372,30.55,0.826,7.9,0.294,68.1,0.641,6.3,0.186,82.7,1.75,11.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_vehicle_heavy,actuated,20.0,13.581,0.461,30.7,1.129,6.18,0.174,44.6,0.995,2.165,0.15,46.6,2.963,19.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_vehicle_heavy,adaptive_only,20.0,4.783,0.261,13.95,2.305,1.835,0.146,33.05,3.441,12.385,1.359,119.3,13.075,17.25,0.444,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_vehicle_heavy,adaptive_shield,20.0,4.561,0.254,13.55,1.572,1.675,0.133,31.55,4.273,10.485,0.809,103.4,7.721,17.0,0.0,1.0,0.0,1.0,0.0,13.65,0.671,2.35,0.671
+intersection_bursty_ped,fixed_time,20.0,4.324,0.24,12.15,0.745,7.6,0.486,68.0,2.34,3.255,0.161,83.25,1.41,11.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_bursty_ped,actuated,20.0,3.091,0.077,8.25,0.444,4.065,0.104,42.05,1.504,2.945,0.11,49.75,1.943,19.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_bursty_ped,adaptive_only,20.0,2.909,0.144,7.85,0.587,3.71,0.34,44.65,2.961,2.115,0.206,64.3,9.948,18.15,0.366,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+intersection_bursty_ped,adaptive_shield,20.0,2.783,0.114,9.25,0.967,3.58,0.202,49.05,3.236,2.16,0.185,67.0,3.627,18.0,0.0,1.1,0.447,0.0,0.0,16.9,0.308,0.1,0.308

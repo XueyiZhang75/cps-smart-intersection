@@ -1,0 +1,18 @@
+{
+  "controller_name": "adaptive_shield",
+  "scenario_name": "intersection_bursty_ped",
+  "sim_duration": 120.0,
+  "average_vehicle_queue_length": 2.75,
+  "max_vehicle_queue_length": 9,
+  "average_vehicle_waiting_time": 4.0,
+  "max_vehicle_waiting_time": 58.0,
+  "average_ped_waiting_time": 1.3,
+  "max_ped_waiting_time": 34.0,
+  "switch_count": 6,
+  "shield_hold_min_hold": 3,
+  "shield_hold_small_gain": 1,
+  "shield_override_starvation": 4,
+  "shield_override_demand": 1,
+  "false_ped_injected_count": 24,
+  "burst_mode": "route_based"
+}

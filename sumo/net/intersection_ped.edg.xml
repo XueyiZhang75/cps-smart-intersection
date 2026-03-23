@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
+
+    <!-- North <-> Center (with sidewalks) -->
+    <edge id="N2C" from="JN" to="J0" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+    <edge id="C2N" from="J0" to="JN" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+
+    <!-- South <-> Center (with sidewalks) -->
+    <edge id="S2C" from="JS" to="J0" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+    <edge id="C2S" from="J0" to="JS" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+
+    <!-- East <-> Center (with sidewalks) -->
+    <edge id="E2C" from="JE" to="J0" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+    <edge id="C2E" from="J0" to="JE" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+
+    <!-- West <-> Center (with sidewalks) -->
+    <edge id="W2C" from="JW" to="J0" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+    <edge id="C2W" from="J0" to="JW" numLanes="1" speed="13.89" sidewalkWidth="3.0"/>
+
+</edges>

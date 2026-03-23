@@ -1,0 +1,10 @@
+{
+  "controller_name": "actuated",
+  "scenario_name": "intersection_vehicle_heavy",
+  "sim_duration": 300.0,
+  "average_vehicle_queue_length": 13.707,
+  "max_vehicle_queue_length": 30,
+  "max_vehicle_waiting_time": 45.0,
+  "max_ped_waiting_time": 49.0,
+  "switch_count": 19
+}
