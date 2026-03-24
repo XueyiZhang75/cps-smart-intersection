@@ -50,16 +50,14 @@ S1–S3 test demand-profile stress without uncertainty. S4–S6 each inject one 
 
 ```
 cps-smart-intersection/
-├── controllers/           # Standalone controller scripts (debug / early-stage demos)
-│   ├── fixed_time_controller.py
-│   ├── actuated_controller.py
-│   ├── adaptive_only_controller.py
-│   └── adaptive_shield_controller.py
-├── core/                  # Shared modules used by run_experiment.py
-│   ├── uncertainty.py         # Runtime uncertainty injection (delay, false ped, detector failure)
-│   ├── scenario_loader.py     # YAML scenario config loader + validator
-│   └── experiment_logger.py   # Per-step CSV logger (36+ columns)
-├── configs/scenarios/     # Scenario YAML configs (S1–S7)
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── core/                      # Shared runtime modules
+│   ├── uncertainty.py             # Uncertainty injection (delay, false ped, detector failure)
+│   ├── scenario_loader.py         # YAML scenario config loader + validator
+│   └── experiment_logger.py       # Per-step CSV logger
+├── configs/scenarios/         # Scenario YAML configs (S1–S7)
 │   ├── S1_balanced.yaml
 │   ├── S2_directional_surge.yaml
 │   ├── S3_ped_heavy.yaml
@@ -67,54 +65,60 @@ cps-smart-intersection/
 │   ├── S5_false_ped_and_burst.yaml
 │   ├── S6_detector_failure.yaml
 │   └── S7_combined_stress.yaml
-├── sumo/                  # SUMO network, routes, configs
-│   ├── net/                   # .nod.xml, .edg.xml, .net.xml (vehicle + pedestrian)
-│   ├── routes/                # Route/flow files per scenario
-│   └── cfg/                   # .sumocfg entry points
-├── scripts/               # Experiment & analysis scripts
-│   ├── run_experiment.py                  # Unified single-run entry point (authoritative)
-│   ├── run_multiseed_proposal_matrix.py   # Full S1–S7 × 4 ctrl × 20 seed
-│   ├── analyze_proposal_matrix.py         # Chart & table generation from summary
-│   ├── build_case_studies.py              # Shield evidence case extraction
-│   ├── run_prism_base.py                  # PRISM base safety verification
-│   ├── run_prism_extended.py              # PRISM service/risk + delay comparison
-│   ├── run_batch_experiments.py           # Legacy 4-scenario batch (pre-proposal)
-│   ├── run_multiseed_formal_experiments.py # Legacy 4-scenario × 20 seed
-│   ├── analyze_formal_results.py          # Legacy analysis (pre-proposal)
-│   ├── analyze_multiseed_results.py       # Legacy multiseed analysis
-│   └── test_traci_connection.py           # Minimal TraCI connectivity test
-├── prism/                 # PRISM formal models
+├── sumo/                      # SUMO network, routes, configs
+│   ├── net/                       # Network files (nod, edg, net, tll, con)
+│   ├── routes/                    # Route/flow files per scenario
+│   └── cfg/                       # .sumocfg entry points
+├── scripts/                   # Experiment & analysis scripts
+│   ├── run_experiment.py              # Single-run entry point (all controllers)
+│   ├── run_multiseed_proposal_matrix.py  # Full S1–S7 × 4 ctrl × 20 seed (560 runs)
+│   ├── analyze_proposal_matrix.py     # Chart & table generation
+│   ├── build_case_studies.py          # Shield evidence case extraction
+│   ├── run_prism_base.py              # PRISM base safety verification
+│   └── run_prism_extended.py          # PRISM service/risk + delay comparison
+├── prism/                     # PRISM formal models
 │   ├── intersection_base.pm           # Base DTMC: 8 phases + demand bits
-│   ├── intersection_uncertain.pm      # Extended: + wait risk buckets + delay mode
-│   ├── properties_base.pctl           # 3 safety properties
-│   └── properties_extended.pctl       # 14 properties: service, risk, steady-state
-├── cases/                 # Shield evidence case studies (3 cases)
+│   ├── intersection_uncertain.pm      # Extended: + wait-risk buckets + delay mode
+│   ├── properties_base.pctl           # 3 base safety properties
+│   └── properties_extended.pctl       # 14 extended properties
+├── cases/                     # Shield evidence case studies
 │   ├── case1_min_green_hold/
 │   ├── case2_ped_conflict_clearance/
 │   └── case3_false_button_debounce/
-├── results/               # All experiment outputs
+├── results/                   # Experiment outputs
 │   ├── proposal_multiseed_raw.csv     # 560 raw results
 │   ├── proposal_multiseed_summary.csv # 28-row mean±std aggregation
-│   ├── proposal_matrix_main_table.csv # Human-readable summary
+│   ├── proposal_matrix_main_table.csv # Human-readable summary table
 │   ├── analysis_proposal_matrix/      # 12 PNG charts + summary CSVs + notes
-│   └── prism/                         # PRISM verification results
-├── logs/step_logs/        # Per-step CSV logs (~566 files)
-└── docs/
-    ├── project_contract_v1.md
-    ├── sumo_prism_mapping.md
-    └── scenario_config_schema.md
+│   └── prism/                         # PRISM verification outputs
+├── docs/                      # Documentation
+│   ├── project_contract_v1.md
+│   ├── sumo_prism_mapping.md
+│   └── scenario_config_schema.md
+└── archive/                   # Earlier development artefacts (not part of submission)
+    ├── controllers_dev/           # Standalone controller scripts (early dev)
+    ├── scripts_legacy/            # Superseded batch/analysis scripts
+    ├── results_legacy/            # Superseded 4-scenario result sets
+    └── step_logs/                 # Per-step CSV logs, 26 MB (regenerable)
 ```
-
-**Note on `controllers/`:** These files are standalone demo scripts from early development. The authoritative controller implementations used in all formal experiments are embedded in `scripts/run_experiment.py`.
 
 ## Quick Start
 
 ### Prerequisites
 
 - Python 3.10+
-- SUMO 1.26+ (with `sumo`, `sumo-gui`, `netconvert` on PATH)
+- SUMO 1.26+ (with `sumo`, `sumo-gui`, `netconvert` on PATH; TraCI bundled)
 - PRISM 4.10 (optional; requires `E:\prism-4.10\lib` added to system PATH for DLL resolution)
-- Python packages: `traci`, `pyyaml`, `matplotlib`
+
+Install Python dependencies:
+```bash
+pip install pyyaml matplotlib
+```
+
+TraCI ships with SUMO. Add SUMO's tools directory to `PYTHONPATH`:
+```bash
+export PYTHONPATH="$SUMO_HOME/tools:$PYTHONPATH"
+```
 
 ### Run a Single Experiment
 
@@ -226,7 +230,7 @@ The experiment framework tracks four categories of metrics, aligned with the pro
 - `switch_rate_per_300s` — service phase transitions normalized to 300s
 - `unnecessary_switch_rate` — switches where target phase had near-zero demand
 
-Per-step CSV logs (36+ columns) record candidate phase, final action, shield override events (flag + reason), observed vs. true demand, and uncertainty state at each simulation second.
+Per-step CSV logs (36+ columns) are generated during each run and record candidate phase, final action, shield override events, observed vs. true demand, and uncertainty state. These are used by `build_case_studies.py` and are stored in `archive/step_logs/` (regenerable by re-running the experiment scripts).
 
 ## Architecture
 

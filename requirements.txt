@@ -1,0 +1,10 @@
+pyyaml>=6.0
+matplotlib>=3.7
+
+# TraCI is bundled with SUMO — add SUMO's tools directory to PYTHONPATH:
+#   export PYTHONPATH="$SUMO_HOME/tools:$PYTHONPATH"
+# SUMO 1.26+ required: https://sumo.dlr.de/docs/Downloads.php
+
+# PRISM 4.10 is optional (formal verification only):
+#   https://www.prismmodelchecker.org/download.php
+#   Requires E:\prism-4.10\lib on system PATH (Windows) for DLL resolution
