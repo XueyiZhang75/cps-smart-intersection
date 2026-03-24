@@ -170,6 +170,204 @@ python scripts/build_case_studies.py
 
 Generates 3 case study packages in `cases/`, each with step log, key events CSV, timeline PNG, and explanatory README.
 
+## Full Pipeline: Understanding and Reproducing the Project
+
+This section walks through the complete project from first principles to final results. It is intended for anyone picking up this repository for the first time.
+
+### Conceptual Flow
+
+```
+SUMO Network (sumo/net/)
+    │  4-way junction, 8 signal phases, vehicle lanes + pedestrian crossings
+    ▼
+Scenario Configs (configs/scenarios/S1–S7.yaml)
+    │  Each scenario = demand profile + optional uncertainty injection settings
+    ▼
+Experiment Runner (scripts/run_experiment.py)
+    │  Loads scenario → starts SUMO via TraCI → runs one controller for 300s
+    │  Controller types: Fixed-Time | Actuated | Adaptive-Only | Adaptive+Shield
+    │  Uncertainty injection activates at runtime (observation-layer only)
+    │  Outputs: per-run JSON summary + per-step CSV log
+    ▼
+Multi-seed Matrix (scripts/run_multiseed_proposal_matrix.py)
+    │  Repeats single-run logic for all 7 × 4 × 20 = 560 combinations
+    │  Outputs: raw CSV (560 rows) + summary CSV (28 rows mean±std)
+    ▼
+Analysis & Charts (scripts/analyze_proposal_matrix.py)
+    │  Reads summary CSV → generates 12 grouped bar charts + result tables
+    ▼
+Shield Case Studies (scripts/build_case_studies.py)       ← parallel, optional
+    │  Extracts step-log evidence for 3 concrete shield intervention events
+    ▼
+PRISM Verification (scripts/run_prism_base.py / run_prism_extended.py)   ← parallel, optional
+    │  Checks safety/liveness properties on the formal DTMC abstraction
+    ▼
+Results (results/)
+    ├── proposal_multiseed_raw.csv / summary.csv / main_table.csv
+    ├── analysis_proposal_matrix/  (12 PNG charts)
+    ├── prism/  (verification outputs)
+    └── cases/  (3 shield evidence packages)
+```
+
+### Step 0 — Environment Setup
+
+**Required for all simulation steps:**
+
+```bash
+# 1. Install Python dependencies
+pip install pyyaml matplotlib
+
+# 2. Add SUMO's TraCI library to Python path (adjust to your SUMO install location)
+export PYTHONPATH="$SUMO_HOME/tools:$PYTHONPATH"
+# Windows example: set PYTHONPATH=C:\Program Files (x86)\Eclipse\Sumo\tools;%PYTHONPATH%
+
+# 3. Verify SUMO is accessible
+sumo --version
+```
+
+**Required only for PRISM formal verification (Step 5):**
+
+```bash
+# Add PRISM native libraries to PATH so Windows can resolve DLL dependencies
+export PATH="/e/prism-4.10/lib:$PATH"
+# Windows: add E:\prism-4.10\lib to System PATH in Environment Variables
+```
+
+### Step 1 — Understand the Network and Scenarios
+
+The SUMO network is a single 4-way junction with 8 signal phases:
+- Phases 0, 2, 4, 6: **service phases** (one direction gets green)
+- Phases 1, 3, 5, 7: **clearance/yellow phases** (transition buffers)
+
+Signal phases and their phases are defined in `sumo/net/intersection_ped.tll.xml`. The network file itself is `sumo/net/intersection_ped.net.xml`.
+
+Scenarios are declared in `configs/scenarios/`. Each YAML file specifies:
+- Which SUMO `.sumocfg` and route file to use
+- What uncertainty to inject at runtime (or none for S1–S3)
+
+To inspect a scenario config:
+```bash
+cat configs/scenarios/S4_delay_detection.yaml
+```
+
+### Step 2 — Run a Single Experiment
+
+The entry point for any single run is `scripts/run_experiment.py`. Use `--scenario_id` for S4–S7 (required to activate uncertainty injection); `--cfg` alone works for S1–S3.
+
+```bash
+# S1 (no uncertainty) with Adaptive+Shield, visual GUI
+python scripts/run_experiment.py \
+    --controller adaptive_shield \
+    --scenario_id S1_balanced \
+    --duration 300 --seed 0 --gui
+
+# S4 (5s sensing delay) with Adaptive-Only, headless
+python scripts/run_experiment.py \
+    --controller adaptive_only \
+    --scenario_id S4_delay_detection \
+    --duration 300 --seed 0
+
+# Compare all 4 controllers on S7 (combined stress), one at a time
+for ctrl in fixed_time actuated adaptive_only adaptive_shield; do
+    python scripts/run_experiment.py \
+        --controller $ctrl --scenario_id S7_combined_stress \
+        --duration 300 --seed 0
+done
+```
+
+**Controller names:** `fixed_time`, `actuated`, `adaptive_only`, `adaptive_shield`
+
+**Output:** JSON summary written to `results/`, step-level CSV written to `archive/step_logs/`.
+
+### Step 3 — Run the Full 560-Run Experiment Matrix
+
+This is the authoritative data-generation step. It runs all 7 scenarios × 4 controllers × 20 seeds = 560 experiments sequentially (no SUMO GUI; headless mode). Expect roughly 30–60 minutes depending on hardware.
+
+```bash
+python scripts/run_multiseed_proposal_matrix.py
+```
+
+Outputs written to `results/`:
+| File | Contents |
+|------|----------|
+| `proposal_multiseed_raw.csv` | 560 rows, one per (scenario, controller, seed) |
+| `proposal_multiseed_summary.csv` | 28 rows, mean ± std per (scenario × controller) |
+| `proposal_matrix_main_table.csv` | Human-readable formatted table |
+
+**Note:** Pre-computed results are already present in `results/`. Re-running will overwrite them. The step logs (26 MB) are stored in `archive/step_logs/` and are regenerated by this script.
+
+### Step 4 — Generate Analysis Charts
+
+Reads `results/proposal_multiseed_summary.csv` and produces 12 grouped bar charts with error bars plus CSV summaries.
+
+```bash
+python scripts/analyze_proposal_matrix.py
+```
+
+Outputs to `results/analysis_proposal_matrix/`:
+- 12 PNG charts: one per metric (average queue, wait times, switch rates, starvation counts, etc.)
+- `proposal_results_summary.csv`, `proposal_results_by_scenario.csv`
+- `shield_behavior_summary.csv` — shield intervention counts per scenario
+- `proposal_results_notes.md` — auto-generated interpretation notes
+
+### Step 5 — Build Shield Evidence Case Studies
+
+Extracts concrete evidence from step logs for 3 shield intervention scenarios. Requires that step logs exist in `archive/step_logs/` (generated by Step 3, or by running individual experiments).
+
+```bash
+python scripts/build_case_studies.py
+```
+
+Outputs to `cases/` (3 subdirectories):
+| Case | What it demonstrates |
+|------|----------------------|
+| `case1_min_green_hold/` | Shield blocks premature phase switch before 18s min-hold |
+| `case2_ped_conflict_clearance/` | Shield routes ped service through mandatory clearance phase |
+| `case3_false_button_debounce/` | Shield rejects spurious ped demand from false injection |
+
+Each case directory contains: `step_log.csv`, `key_events.csv`, `timeline.png`, `README.md`, `trigger_config.json`.
+
+### Step 6 — Run PRISM Formal Verification (Optional)
+
+Requires PRISM 4.10 installed and `E:\prism-4.10\lib` on system PATH (see Step 0). These steps verify safety/liveness properties on the DTMC abstraction of the intersection — independent of SUMO simulation.
+
+```bash
+# Base model: 3 safety properties (always verified true by design)
+python scripts/run_prism_base.py
+
+# Extended model: 14 properties (service guarantees, risk levels, delay comparison)
+python scripts/run_prism_extended.py
+```
+
+Outputs written to `results/prism/`:
+- `base_verification_results.md` / `prism_raw_output.txt`
+- `extended_verification_results.md` / `extended_prism_raw_output.txt`
+
+Pre-computed results are already present. Re-running requires PRISM to be installed.
+
+### Recommended Reproduction Order
+
+For a full reproduction from scratch:
+
+```
+Step 0  →  Step 3  →  Step 4  →  Step 5  →  Step 6
+(setup)    (560 runs)  (charts)  (cases)   (PRISM, optional)
+```
+
+To just verify the analysis pipeline on existing data (no re-simulation needed):
+
+```
+Step 4  →  Step 5  →  Step 6
+```
+
+To visually observe the controllers in action before running the full matrix:
+
+```
+Step 0  →  Step 2 (with --gui)  →  Step 3  →  Step 4
+```
+
+---
+
 ## Key Results
 
 ### Formal Verification (PRISM)
